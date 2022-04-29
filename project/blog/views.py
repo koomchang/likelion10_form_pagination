@@ -37,9 +37,9 @@ def delete(request, id):
 
 def report(request, id):
     report_blog = get_object_or_404(Blog, pk = id)
-    report_blog.report = request.POST.get('report', False)
     report_blog.report += 1
     if report_blog.report == 3:
         report_blog.delete()
-        report_blog.save()
-    return redirect('home')
+        return render(request, 'report.html', {'blog':report_blog})
+    report_blog.save()
+    return render(request, 'report.html', {'blog':report_blog})
