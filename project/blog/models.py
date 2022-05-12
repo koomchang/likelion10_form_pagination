@@ -5,6 +5,7 @@ class Blog(models.Model):
     contents = models.TextField()
     created_at = models.DateTimeField(auto_now_add = True)
     report = models.PositiveIntegerField(default = 0)
+    image = models.ImageField(upload_to = "blog/", blank = True, null = True)
 
     def __str__(self):
         return self.title

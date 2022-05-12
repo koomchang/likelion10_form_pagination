@@ -1,8 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Blog
+from .form import BlogForm
+from django.core.paginator import Paginator #Paginator 사용
 
 def home(request):
     blogs = Blog.objects.all()
+    paginator = Paginator(blogs, 3)
+    pagnum = request.GET.get('page') #GET 요청에서 page id를 get 한다.
+    blogs = paginator.get_page(pagnum)
     return render(request, 'home.html', {'blogs':blogs})
 
 def detail(request, id):
@@ -10,7 +15,16 @@ def detail(request, id):
     return render(request, 'detail.html', {'blog':blog})
 
 def new(request):
-    return render(request, "new.html")
+    # 1. 데이터가 입력된 후 제출 버튼을 누르고 데이터 저장 -> POST
+    # 2. 정보가 입력되지 않은 빈칸으로 되어있는 페이지 보여주기 -> GET
+    if request.method == "POST":
+        form = BlogForm(request.POST)
+        if form.is_valid(): #유효성 검사
+            form.save()
+            return redirect('home')
+    else:
+        form = BlogForm()
+        return render(request, 'new.html', {'form':form})
 
 def create(request):
     new_blog = Blog()
@@ -20,8 +34,17 @@ def create(request):
     return redirect('detail', new_blog.id)
 
 def edit(request, id):
+    # 1. 데이터 입력된 후 제출 버튼 누르면 데이터 저장
+    # 2. 
     edit_blog = get_object_or_404(Blog, pk = id)
-    return render(request, 'edit.html', {'blog':edit_blog})
+    if request.method == "POST":
+        form = BlogForm(request.POST)
+        if form.is_valid(): #유효성 검사
+            form.save()
+            return redirect('detail', edit_blog.id)
+        else:
+            form = BlogForm()
+            return render(request, 'edit.html', {'blog':edit_blog})
 
 def update(request, id):
     update_blog = get_object_or_404(Blog, pk = id)
