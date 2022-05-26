@@ -39,13 +39,13 @@ def edit(request, id):
     # 2. 
     edit_blog = get_object_or_404(Blog, pk = id)
     if request.method == "POST":
-        form = BlogForm(request.POST)
+        form = BlogForm(request.POST, instance = edit_blog)
         if form.is_valid(): #유효성 검사
             form.save()
             return redirect('detail', edit_blog.id)
-        else:
-            form = BlogForm()
-            return render(request, 'edit.html', {'form':form})
+    else:
+        form = BlogForm(instance = edit_blog)
+        return render(request, 'edit.html', {'form':form})
 
 def update(request, id):
     update_blog = get_object_or_404(Blog, pk = id)

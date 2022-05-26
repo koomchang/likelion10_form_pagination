@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block contents %}
-<h1>새 글 작성하기</h1>
+<h1>글 수정하기</h1>
 <form method='POST'>
     {% csrf_token %}
     <table>
@@ -9,6 +9,3 @@
     <input type="submit" value=저장>
 </form>
 {% endblock %}
-
-
-<!-- edit.html 수정필요 및 pagination 구현 필요 -->
