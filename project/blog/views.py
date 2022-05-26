@@ -8,7 +8,8 @@ def home(request):
     paginator = Paginator(blogs, 3)
     pagnum = request.GET.get('page') #GET 요청에서 page id를 get 한다.
     blogs = paginator.get_page(pagnum)
-    return render(request, 'home.html', {'blogs':blogs})
+    page_range = list(paginator.page_range)
+    return render(request, 'home.html', {'blogs':blogs, 'page_range' : page_range})
 
 def detail(request, id):
     blog = get_object_or_404(Blog, pk = id)
@@ -44,7 +45,7 @@ def edit(request, id):
             return redirect('detail', edit_blog.id)
         else:
             form = BlogForm()
-            return render(request, 'edit.html', {'blog':edit_blog})
+            return render(request, 'edit.html', {'form':form})
 
 def update(request, id):
     update_blog = get_object_or_404(Blog, pk = id)
