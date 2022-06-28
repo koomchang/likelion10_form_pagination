@@ -67,3 +67,7 @@ def report(request, id):
         return render(request, 'report.html', {'blog':report_blog})
     report_blog.save()
     return render(request, 'report.html', {'blog':report_blog})
+
+
+def tmp(request):
+    print("1234")

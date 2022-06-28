@@ -27,4 +27,5 @@ urlpatterns = [
     path('blog/update/<int:id>', blog.views.update, name = "update"),
     path('blog/delete/<int:id>', blog.views.delete, name = "delete"),
     path('blog/report/<int:id>', blog.views.report, name = "report"),
+    path('tmp', blog.views.tmp),
 ]
